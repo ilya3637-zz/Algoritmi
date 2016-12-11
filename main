@@ -13,8 +13,7 @@ namespace AlgoritmiDZ
     {
         static int[,] Map;
         static int N,sX,sY,tX,tY,way,way2;
-        static double waytemp;  
-         
+        static double waytemp;           
 
         static void Main()
         {
@@ -222,6 +221,7 @@ namespace AlgoritmiDZ
                     else
                         cMap[y, x] = -1;//индикатор еще не ступали сюда
                 }
+                
             cMap[startY, startX] = 0;//Начинаем со старта
             while (true)
             {
@@ -241,6 +241,7 @@ namespace AlgoritmiDZ
                                 cMap[x, y + 1] = step + 1;
                         }
                     }
+                    
                 step++;
                 if (cMap[targetY, targetX] != -1)//решение найдено
 
