@@ -1,0 +1,295 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AlgoritmiDZ
+{
+     class Program
+    {
+        static int[,] Map;
+        static int N,sX,sY,tX,tY,way,way2;
+        static double waytemp;  
+         
+
+        static void Main()
+        {
+            try
+            {
+                Console.Write("Ведите адрес входного файла и нажмите Enter.\n");
+                Console.Write(@"C:\Users\user\Downloads\in.txt");
+                Console.Write("\n");
+                Console.Write(@"M:\алгоритмы\in.txt");
+                Console.Write("\n");
+
+                //файл
+                string adres1;
+                adres1 = Console.ReadLine();
+
+                //узнать размер массива 
+                N = File.ReadAllLines(adres1).Length;
+                Console.Write(N);
+
+                //ReadMap();
+                //считать все строки из файла
+                string[] lines = File.ReadAllLines(@adres1);
+
+                //разбить строки и занести все в массив
+                int[,] array = new int[N, N];
+                for (int i = 0; i < N; i++)
+                {
+                    int[] row = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                    for (int j = 0; j < N; j++)
+                    {
+                        if (row[j] != 2)
+                        {
+                            if (row[j] != 3)
+                            {
+                                array[i, j] = row[j];
+                            }
+                            else
+                            {
+                                row[j] = 0;
+                                tX = i;
+                                tY = j;
+                            }
+                        }
+                        else
+                        {
+                            sX = i;
+                            sY = j;
+                        }
+                    }
+                }
+                Map = array;
+                DrawMap();
+                Console.ReadKey();
+            }
+            catch
+            {
+                Console.Write("\n");
+                Console.Write("Что-то пошло не так.");
+                Console.ReadKey();
+            }    
+        }        
+      
+        static public void DrawMap()
+        {
+            for (int y = 0; y < N; y++)
+            {
+                Console.WriteLine();
+                for (int x = 0; x < N; x++)
+                    if (Map[y,x]==1)
+                        Console.Write("#");
+                    else
+                        Console.Write(" ");
+            }
+            FindWave(sX, sY, tX, tY);
+        }
+        
+        static public void FindWave(int startX, int startY, int targetX, int targetY)
+        {
+            int[,] cMap = new int[N,N];
+            int x, y,step=0;
+            for (y = 0; y < N; y++)
+                for (x = 0; x < N; x++)
+                {
+                    if (Map[y, x] == 1)
+                        cMap[y, x] = -2;//индикатор стены
+                    else
+                        cMap[y, x] = -1;//индикатор еще не ступали сюда
+                }
+            cMap[targetY,targetX]=0;//Начинаем с финиша
+            while (true)
+            {
+                for (y = 0; y < N; y++)
+                    for (x = 0; x < N; x++)
+                    {
+                        if (cMap[x, y] == step)
+                        {
+                            //Ставим значение шага+1 в соседние ячейки (если они проходимы)
+                            if (y - 1 >= 0 && cMap[x - 1, y] != -2 && cMap[x - 1, y] == -1)
+                                cMap[x - 1, y] = step + 1;
+                            if (x - 1 >= 0 && cMap[x, y - 1] != -2 && cMap[x, y - 1] == -1)
+                                cMap[x, y - 1] = step + 1;
+                            if (y + 1 < N && cMap[x + 1, y] != -2 && cMap[x + 1, y] == -1)
+                                cMap[x + 1, y] = step + 1;
+                            if (x + 1 < N && cMap[x, y + 1] != -2 && cMap[x, y + 1] == -1)
+                                cMap[x, y + 1] = step + 1;
+                        }
+                     }
+                step++;
+                if (cMap[startY, startX] != -1)//решение найдено
+                   
+                if (step > Map.Length)//решение не найдено
+                    break;
+            }
+            int temp = 0;
+            //Отрисовываем карты
+            for (y = 0; y < N; y++)
+            {
+                Console.WriteLine();
+                for (x = 0; x < N; x++)
+                    if (cMap[y, x] == -1)
+                        Console.Write("   ");
+                    else
+                    if (cMap[y, x] == -2)
+                    {
+                       Console.Write("#  ");
+                    }
+                    else
+                    if (y == startY && x == startX)
+                    {
+                        Console.Write("S  ");
+                    }
+                    else
+                    if (y == targetY && x == targetX)
+                    {
+                        Console.Write("F  ");
+                    }
+                    else
+                    if (cMap[y, x] > -1)
+                    {
+                        if (cMap[y, x] < 10)
+                        { Console.Write("{0}  ", cMap[y, x]); }
+                        else
+                        { Console.Write("{0} ", cMap[y, x]); }
+                        if (temp < cMap[y, x]) { temp = cMap[y, x]; }                        
+                    }                
+            }
+            Console.Write("\n");
+            Console.Write(temp);
+            waytemp = temp / 3;
+            waytemp = Math.Floor(waytemp);
+            way= Convert.ToInt32(waytemp)+2;
+            Console.Write("\n");
+            Console.Write(way);
+            way2 = temp - way;
+            //Отрисовываем карты
+            Console.Write("\n");
+            for (y = 0; y < N; y++)
+            {
+                Console.WriteLine();
+                for (x = 0; x < N; x++)
+                    if (cMap[y, x] == -1)
+                        Console.Write("   ");
+                    else
+                    if (cMap[y, x] == -2)
+                    {
+                        Console.Write("#  ");
+                    }
+                    else
+                    if (y == startY && x == startX)
+                    {
+                        Console.Write("S  ");
+                    }
+                    else
+                    if (y == targetY && x == targetX)
+                    {
+                        Console.Write("F  ");
+                    }
+                    else
+                    if (cMap[y, x] > -1)
+                    {
+                        if (cMap[y, x] <= way)
+                        {
+                            if (cMap[y, x] < 10)
+                            { Console.Write("#  "); }
+                            else
+                            { Console.Write("#  "); }
+                        }
+                        else
+                        {
+                            if (cMap[y, x] < 10)
+                            { Console.Write("   "); }
+                            else
+                            { Console.Write("   "); }
+                        }
+                    }
+            }
+
+            Console.Write("\n");
+            step = 0;
+            for (y = 0; y < N; y++)
+                for (x = 0; x < N; x++)
+                {
+                    if (Map[y, x] == 1)
+                        cMap[y, x] = -2;//индикатор стены
+                    else
+                        cMap[y, x] = -1;//индикатор еще не ступали сюда
+                }
+            cMap[startY, startX] = 0;//Начинаем со старта
+            while (true)
+            {
+                for (y = 0; y < N; y++)
+                    for (x = 0; x < N; x++)
+                    {
+                        if (cMap[x, y] == step)
+                        {
+                            //Ставим значение шага+1 в соседние ячейки (если они проходимы)
+                            if (y - 1 >= 0 && cMap[x - 1, y] != -2 && cMap[x - 1, y] == -1)
+                                cMap[x - 1, y] = step + 1;
+                            if (x - 1 >= 0 && cMap[x, y - 1] != -2 && cMap[x, y - 1] == -1)
+                                cMap[x, y - 1] = step + 1;
+                            if (y + 1 < N && cMap[x + 1, y] != -2 && cMap[x + 1, y] == -1)
+                                cMap[x + 1, y] = step + 1;
+                            if (x + 1 < N && cMap[x, y + 1] != -2 && cMap[x, y + 1] == -1)
+                                cMap[x, y + 1] = step + 1;
+                        }
+                    }
+                step++;
+                if (cMap[targetY, targetX] != -1)//решение найдено
+
+                    if (step > Map.Length)//решение не найдено
+                        break;
+            }
+            //Отрисовываем карты
+            temp = 0;
+            for (y = 0; y < N; y++)
+            {
+                Console.WriteLine();
+                for (x = 0; x < N; x++)
+                    if (cMap[y, x] == -1)
+                        Console.Write("   ");
+                    else
+                    if (cMap[y, x] == -2)
+                    {
+                        Console.Write("#  ");
+                    }
+                    else
+                    if (y == startY && x == startX)
+                    {
+                        Console.Write("S  ");
+                    }
+                    else
+                    if (y == targetY && x == targetX)
+                    {
+                        Console.Write("#  ");
+                    }
+                    else
+                    if (cMap[y, x] > -1)
+                    {
+                        if (cMap[y, x] <= way2)
+                        {
+                            if (cMap[y, x] < 10)
+                            { Console.Write("{0}  ", cMap[y, x]); }
+                            else
+                            { Console.Write("{0} ", cMap[y, x]); }
+                            if (temp < cMap[y, x]) { temp = cMap[y, x]; }
+                        }
+                        else
+                        {
+                            if (cMap[y, x] < 10)
+                            { Console.Write("#  "); }
+                            else
+                            { Console.Write("#  "); }
+                        }
+                    }
+            }
+        }
+    }                 
+}
