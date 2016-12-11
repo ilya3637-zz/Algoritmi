@@ -13,7 +13,10 @@ namespace AlgoritmiDZ
     {
         static int[,] Map;
         static int N,sX,sY,tX,tY,way,way2;
-        static double waytemp;           
+        static double waytemp;
+        static string adres2;
+
+         
 
         static void Main()
         {
@@ -28,9 +31,18 @@ namespace AlgoritmiDZ
                 //файл
                 string adres1;
                 adres1 = Console.ReadLine();
+                Console.Write("\n");
+                Console.Write("Ведите адрес выходного файла и нажмите Enter.\n");
+                Console.Write(@"C:\Users\user\Downloads\out.txt");
+                Console.Write("\n");
+                Console.Write(@"M:\алгоритмы\out.txt");
+                Console.Write("\n");
+                
+
+                adres2 = Console.ReadLine();
 
                 //узнать размер массива 
-                N = File.ReadAllLines(adres1).Length;
+                N = File.ReadAllLines(adres1).Length;                
                 Console.Write(N);
 
                 //ReadMap();
@@ -66,6 +78,7 @@ namespace AlgoritmiDZ
                 }
                 Map = array;
                 DrawMap();
+                
                 Console.ReadKey();
             }
             catch
@@ -221,7 +234,6 @@ namespace AlgoritmiDZ
                     else
                         cMap[y, x] = -1;//индикатор еще не ступали сюда
                 }
-                
             cMap[startY, startX] = 0;//Начинаем со старта
             while (true)
             {
@@ -241,7 +253,6 @@ namespace AlgoritmiDZ
                                 cMap[x, y + 1] = step + 1;
                         }
                     }
-                    
                 step++;
                 if (cMap[targetY, targetX] != -1)//решение найдено
 
@@ -250,47 +261,72 @@ namespace AlgoritmiDZ
             }
             //Отрисовываем карты
             temp = 0;
+            //-------------
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(@adres2, false, System.Text.Encoding.Default))
+                {                
+
+            
             for (y = 0; y < N; y++)
             {
+                sw.WriteLine();
                 Console.WriteLine();
                 for (x = 0; x < N; x++)
                     if (cMap[y, x] == -1)
+                    {
                         Console.Write("   ");
-                    else
-                    if (cMap[y, x] == -2)
-                    {
-                        Console.Write("#  ");
+                        sw.Write("   ");
                     }
+
                     else
-                    if (y == startY && x == startX)
-                    {
-                        Console.Write("S  ");
-                    }
-                    else
-                    if (y == targetY && x == targetX)
-                    {
-                        Console.Write("#  ");
-                    }
-                    else
-                    if (cMap[y, x] > -1)
-                    {
-                        if (cMap[y, x] <= way2)
+                        if (cMap[y, x] == -2)
                         {
-                            if (cMap[y, x] < 10)
-                            { Console.Write("{0}  ", cMap[y, x]); }
-                            else
-                            { Console.Write("{0} ", cMap[y, x]); }
-                            if (temp < cMap[y, x]) { temp = cMap[y, x]; }
+                            Console.Write("#  ");
+                            sw.Write("#  ");
                         }
                         else
-                        {
-                            if (cMap[y, x] < 10)
-                            { Console.Write("#  "); }
+                            if (y == startY && x == startX)
+                            {
+                                Console.Write("S  ");
+                                sw.Write("S  ");
+                            }
                             else
-                            { Console.Write("#  "); }
-                        }
-                    }
+                                if (y == targetY && x == targetX)
+                                {
+                                    Console.Write("#  ");
+                                    sw.Write("#  ");
+                                }
+                                else
+                                    if (cMap[y, x] > -1)
+                                    {
+                                        if (cMap[y, x] <= way2)
+                                        {
+                                            if (cMap[y, x] < 10)
+                                            { Console.Write("{0}  ", cMap[y, x]); sw.Write("{0}  ", cMap[y, x]); }
+                                            else
+                                            { Console.Write("{0} ", cMap[y, x]); sw.Write("{0} ", cMap[y, x]); }
+
+                                            if (temp < cMap[y, x]) { temp = cMap[y, x];  }
+                                        }
+                                        else
+                                        {
+                                            if (cMap[y, x] < 10)
+                                            { Console.Write("#  "); sw.Write("#  "); }
+                                            else
+                                            { Console.Write("#  "); sw.Write("#  "); }
+                                        }
+                                    }
             }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            //---------------
+
+            
         }
     }                 
 }
