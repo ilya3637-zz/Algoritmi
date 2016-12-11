@@ -1,0 +1,213 @@
+using System;
+using System.IO;
+
+namespace Test_in_out
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {                              
+                Console.Write("Ведите адрес входного файла и нажмите Enter.\n");
+                Console.Write("пример ");
+                Console.Write(@"C:\Users\ilya3\Documents\dz\in.txt");
+                Console.Write("\n");
+
+                string adres1;
+                adres1 = Console.ReadLine();
+
+                Console.Write("Вся строчки/столбцы будут обрезаны по первой строчке/столбцу.\n");
+                Console.Write("Исправлять ERROR в порядке их вывода на экран.\n\n");
+
+                int N = 0, M = 0, Start1 = 0, Start2 = 0, zifra = 0;
+                string[] lines = File.ReadAllLines(@adres1);
+                int rowCount = lines.Length;
+                int colCount = lines[0].Split().Length;
+                int[,] array = new int[rowCount, colCount];
+
+                try//считывание массива
+                {
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        string[] line = lines[i].Split();
+                        for (int j = 0; j < colCount; j++)
+                        {
+                            array[i, j] = int.Parse(line[j]);
+                            M = j;
+                            if (array[i, j] == 2)
+                            {
+                                Start1++;
+                            }
+                            if (array[i, j] == 3)
+                            {
+                                Start2++;
+                            }
+                            if ((array[i, j] != 0) && (array[i, j] != 1) && (array[i, j] != 2) && (array[i, j] != 3))
+                            {
+                                zifra++;
+                            }
+                        }
+                        N = i;
+                    }
+                    Console.Write("ОК Карта считывается верно.\n");
+                }
+                catch
+                {
+                    Console.Write("ERROR Одна из строк/столбцов не записаны или содержатся не только цифры или в конце одной из строчек стоит пробел.\n");
+                }
+
+                //квадратный массив
+                if (N == M)
+                {
+                    Console.Write("ОК Карта квадратная.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Карта не квадратная.\n");
+                }
+                //размер массива
+                if (N > 1)
+                {
+                    Console.Write("ОК Карта >= минимальной допустимой.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Карта меньше минимальной по размерам.\n");
+                }
+                //старты команд
+                if (Start1 == 1)
+                {
+                    Console.Write("ОК Старт союзников(2) указан.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Старт союзников(2) не указан или он не один.\n");
+                }
+                if (Start2 == 1)
+                {
+                    Console.Write("ОК Старт врагов(3) указан.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Старт врагов(3) не указан или он не один.\n");
+                }
+                //используется 0 1 2 3
+                if (zifra == 0)
+                {
+                    Console.Write("ОК Используются только цифры 0 1 2 3.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Используются цифры/буквы кроме 0 1 2 3.\n");
+                }
+            }
+            catch
+            {
+                Console.Write("ERROR Ошибка в адресе/типевходного  файла.\n");
+            }
+            //---------------------------------------------------------------------------------------------------
+            try
+            {
+                Console.Write("Ведите адрес выходного файла и нажмите Enter.\n");
+                Console.Write("пример ");
+                Console.Write(@"C:\Users\ilya3\Documents\dz\out.txt");
+                Console.Write("\n");
+
+                string adres2;
+                adres2 = Console.ReadLine();
+
+                Console.Write("Вся строчки/столбцы будут обрезаны по первой строчке/столбцу.\n");
+                Console.Write("Исправлять ERROR в порядке их вывода на экран.\n\n");
+
+                int N = 0, M = 0, Start1 = 0, Start2 = 0, zifra = 0;
+                string[] lines = File.ReadAllLines(@adres2);
+                int rowCount = lines.Length;
+                int colCount = lines[0].Split().Length;
+                int[,] array = new int[rowCount, colCount];
+                try//считывание массива
+                {
+
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        string[] line = lines[i].Split();
+                        for (int j = 0; j < colCount; j++)
+                        {
+                            array[i, j] = int.Parse(line[j]);
+                            M = j;
+                            if (array[i, j] == 2)
+                            {
+                                Start1++;
+                            }
+                            if (array[i, j] == 3)
+                            {
+                                Start2++;
+                            }
+                            if ((array[i, j] != 0) && (array[i, j] != 1) && (array[i, j] != 2) && (array[i, j] != 3) && (array[i, j] != 4))
+                            {
+                                zifra++;
+                            }
+                        }
+                        N = i;
+                    }
+                    Console.Write("ОК Карта считывается верно.\n");
+                }
+                catch
+                {
+                    Console.Write("ERROR Одна из строк/столбцов не записаны или содержатся не только цифры или в конце одной из строчек стоит пробел.\n");
+                }
+
+                //квадратный массив
+                if (N == M)
+                {
+                    Console.Write("ОК Карта квадратная.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Карта не квадратная.\n");
+                }
+                //размер массива
+                if (N > 1)
+                {
+                    Console.Write("ОК Карта >= минимальной допустимой.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Карта меньше минимальной по размерам.\n");
+                }
+                //старты команд
+                if (Start1 == 1)
+                {
+                    Console.Write("ОК Старт союзников(2) указан.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Старт союзников(2) не указан или он не один.\n");
+                }
+                if (Start2 == 1)
+                {
+                    Console.Write("ОК Старт врагов(3) указан.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Старт врагов(3) не указан или он не один.\n");
+                }
+                //используется 0 1 2 3
+                if (zifra == 0)
+                {
+                    Console.Write("ОК Используются только цифры 0 1 2 3 4.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Используются цифры/буквы кроме 0 1 2 3 4.\n");
+                }
+            }
+            catch
+            {
+                Console.Write("ERROR Ошибка в адресе/типе выходного файла.\n");
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
