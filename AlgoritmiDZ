@@ -22,28 +22,21 @@ namespace AlgoritmiDZ
         {
             try
             {
-                Console.Write("Ведите адрес входного файла и нажмите Enter.\n");
-                Console.Write(@"C:\Users\user\Downloads\in.txt");
-                Console.Write("\n");
-                Console.Write(@"M:\алгоритмы\in.txt");
-                Console.Write("\n");
-
-                //файл
+                
+                //Console.Write(@"D:\алгоритмы\in.txt");
+                
                 string adres1;
                 adres1 = Console.ReadLine();
-                Console.Write("\n");
-                Console.Write("Ведите адрес выходного файла и нажмите Enter.\n");
-                Console.Write(@"C:\Users\user\Downloads\out.txt");
-                Console.Write("\n");
-                Console.Write(@"M:\алгоритмы\out.txt");
-                Console.Write("\n");
+                
+                //Console.Write(@"D:\алгоритмы\out.txt");
+                
                 
 
                 adres2 = Console.ReadLine();
 
                 //узнать размер массива 
                 N = File.ReadAllLines(adres1).Length;                
-                Console.Write(N);
+                //Console.Write(N);
 
                 //ReadMap();
                 //считать все строки из файла
@@ -91,7 +84,7 @@ namespace AlgoritmiDZ
       
         static public void DrawMap()
         {
-            for (int y = 0; y < N; y++)
+           /* for (int y = 0; y < N; y++)
             {
                 Console.WriteLine();
                 for (int x = 0; x < N; x++)
@@ -99,7 +92,7 @@ namespace AlgoritmiDZ
                         Console.Write("#");
                     else
                         Console.Write(" ");
-            }
+            }*/
             FindWave(sX, sY, tX, tY);
         }
         
@@ -144,65 +137,73 @@ namespace AlgoritmiDZ
             //Отрисовываем карты
             for (y = 0; y < N; y++)
             {
-                Console.WriteLine();
+                //Console.WriteLine();
                 for (x = 0; x < N; x++)
                     if (cMap[y, x] == -1)
-                        Console.Write("   ");
+                    {
+                        //Console.Write("   ");
+                    }
                     else
                     if (cMap[y, x] == -2)
                     {
-                       Console.Write("#  ");
+                        //Console.Write("#  ");
                     }
                     else
                     if (y == startY && x == startX)
                     {
-                        Console.Write("S  ");
+                        // Console.Write("S  ");
                     }
                     else
                     if (y == targetY && x == targetX)
                     {
-                        Console.Write("F  ");
+                        //Console.Write("F  ");
                     }
                     else
                     if (cMap[y, x] > -1)
                     {
                         if (cMap[y, x] < 10)
-                        { Console.Write("{0}  ", cMap[y, x]); }
+                        {
+                            //Console.Write("{0}  ", cMap[y, x]); 
+                        }
                         else
-                        { Console.Write("{0} ", cMap[y, x]); }
-                        if (temp < cMap[y, x]) { temp = cMap[y, x]; }                        
+                        {
+                            //Console.Write("{0} ", cMap[y, x]); 
+                        }
+                        if (temp < cMap[y, x]) { temp = cMap[y, x]; }
                     }                
             }
-            Console.Write("\n");
-            Console.Write(temp);
+           // Console.Write("\n");
+            //Console.Write(temp);
             waytemp = temp / 3;
             waytemp = Math.Floor(waytemp);
             way= Convert.ToInt32(waytemp)+2;
-            Console.Write("\n");
-            Console.Write(way);
+           // Console.Write("\n");
+           // Console.Write(way);
             way2 = temp - way;
             //Отрисовываем карты
-            Console.Write("\n");
+           // Console.Write("\n");
             for (y = 0; y < N; y++)
             {
-                Console.WriteLine();
+                // Console.WriteLine();
                 for (x = 0; x < N; x++)
                     if (cMap[y, x] == -1)
-                        Console.Write("   ");
+                    {
+                        // Console.Write("   ");
+                    }
                     else
                     if (cMap[y, x] == -2)
                     {
-                        Console.Write("#  ");
+                        // Console.Write("#  ");
                     }
                     else
                     if (y == startY && x == startX)
                     {
-                        Console.Write("S  ");
+                        // Console.Write("S  ");
                     }
                     else
                     if (y == targetY && x == targetX)
                     {
-                        Console.Write("F  ");
+                        // Console.Write("F  ");
                     }
                     else
                     if (cMap[y, x] > -1)
@@ -210,21 +211,29 @@ namespace AlgoritmiDZ
                         if (cMap[y, x] <= way)
                         {
                             if (cMap[y, x] < 10)
-                            { Console.Write("#  "); }
+                            {
+                                //Console.Write("#  ");
+                            }
                             else
-                            { Console.Write("#  "); }
+                            {
+                                //Console.Write("#  "); 
+                            }
                         }
                         else
                         {
                             if (cMap[y, x] < 10)
-                            { Console.Write("   "); }
+                            {
+                                //Console.Write("   ");
+                            }
                             else
-                            { Console.Write("   "); }
+                            {
+                                //Console.Write("   ");
+                            }
                         }
                     }
             }
 
-            Console.Write("\n");
+            //Console.Write("\n");
             step = 0;
             for (y = 0; y < N; y++)
                 for (x = 0; x < N; x++)
@@ -271,30 +280,30 @@ namespace AlgoritmiDZ
             for (y = 0; y < N; y++)
             {
                 sw.WriteLine();
-                Console.WriteLine();
+                //Console.WriteLine();
                 for (x = 0; x < N; x++)
                     if (cMap[y, x] == -1)
                     {
-                        Console.Write("   ");
+                        //Console.Write("   ");
                         sw.Write("   ");
                     }
 
                     else
                         if (cMap[y, x] == -2)
                         {
-                            Console.Write("#  ");
+                           // Console.Write("#  ");
                             sw.Write("#  ");
                         }
                         else
                             if (y == startY && x == startX)
                             {
-                                Console.Write("S  ");
+                              //  Console.Write("S  ");
                                 sw.Write("S  ");
                             }
                             else
                                 if (y == targetY && x == targetX)
                                 {
-                                    Console.Write("#  ");
+                                  //  Console.Write("#  ");
                                     sw.Write("#  ");
                                 }
                                 else
@@ -303,18 +312,18 @@ namespace AlgoritmiDZ
                                         if (cMap[y, x] <= way2)
                                         {
                                             if (cMap[y, x] < 10)
-                                            { Console.Write("{0}  ", cMap[y, x]); sw.Write("{0}  ", cMap[y, x]); }
+                                            { /*Console.Write("{0}  ", cMap[y, x]);*/ sw.Write("{0}  ", cMap[y, x]); }
                                             else
-                                            { Console.Write("{0} ", cMap[y, x]); sw.Write("{0} ", cMap[y, x]); }
+                                            { /*Console.Write("{0} ", cMap[y, x]);*/ sw.Write("{0} ", cMap[y, x]); }
 
                                             if (temp < cMap[y, x]) { temp = cMap[y, x];  }
                                         }
                                         else
                                         {
                                             if (cMap[y, x] < 10)
-                                            { Console.Write("#  "); sw.Write("#  "); }
+                                            {/* Console.Write("#  "); */sw.Write("#  "); }
                                             else
-                                            { Console.Write("#  "); sw.Write("#  "); }
+                                            {/* Console.Write("#  "); */sw.Write("#  "); }
                                         }
                                     }
             }
