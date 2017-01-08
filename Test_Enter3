@@ -1,0 +1,77 @@
+using System;
+using System.IO;
+
+namespace Test_in_out
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                Console.Write("Ведите адрес входного файла и нажмите Enter.\n");
+                Console.Write("пример ");
+                Console.Write(@"C:\Users\ilya3\Documents\dz\in.txt");
+                Console.Write("\n");
+
+                string adres1;
+                adres1 = Console.ReadLine();
+
+                Console.Write("Вся строчки/столбцы будут обрезаны по первой строчке/столбцу.\n");
+                Console.Write("Исправлять ERROR в порядке их вывода на экран.\n\n");
+
+                int N = 0, M = 0, Start1 = 0, Start2 = 0, zifra = 0;
+                string[] lines = File.ReadAllLines(@adres1);
+                int rowCount = lines.Length;
+                int colCount = lines[0].Split().Length;
+                int[,] array = new int[rowCount, colCount];
+
+                try//считывание массива
+                {
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        string[] line = lines[i].Split();
+                        for (int j = 0; j < colCount; j++)
+                        {
+                            array[i, j] = int.Parse(line[j]);
+                            M = j;
+                            if (array[i, j] == 2)
+                            {
+                                Start1++;
+                            }
+                            if (array[i, j] == 3)
+                            {
+                                Start2++;
+                            }
+                            if ((array[i, j] != 0) && (array[i, j] != 1) && (array[i, j] != 2) && (array[i, j] != 3))
+                            {
+                                zifra++;
+                            }
+                        }
+                        N = i;
+                    }
+                    Console.Write("ОК Карта считывается верно.\n");
+                }
+                catch
+                {
+                    Console.Write("ERROR Одна из строк/столбцов не записаны или содержатся не только цифры или в конце одной из строчек стоит пробел.\n");
+                }                
+                //используется 0 1 2 3
+                if (zifra == 0)
+                {
+                    Console.Write("ОК Используются только цифры 0 1 2 3.\n");
+                }
+                else
+                {
+                    Console.Write("ERROR Используются цифры/буквы кроме 0 1 2 3.\n");
+                }
+            }
+            catch
+            {
+                Console.Write("ERROR Ошибка в адресе/типевходного  файла.\n");
+            }            
+
+            Console.ReadKey();
+        }
+    }
+}
